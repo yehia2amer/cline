@@ -109,31 +109,23 @@ jobs:
             - name: Unit Tests with coverage - Linux
               id: unit_tests_linux
               if: ${{ !cancelled() && steps.build_step.outcome == 'success' && runner.os == 'Linux' }}
-              env:
-                  NODE_OPTIONS: "--no-experimental-strip-types"
               run: |
                   npx nyc --nycrc-path .nycrc.unit.json --reporter=lcov npm run test:unit
 
             - name: Unit Tests - Non-Linux
               id: unit_tests_non_linux
               if: ${{ !cancelled() && steps.build_step.outcome == 'success' && runner.os != 'Linux' }}
-              env:
-                  NODE_OPTIONS: "--no-experimental-strip-types"
               run: |
                   npm run test:unit
 
             - name: Extension Integration Tests - Linux
               id: integration_tests_linux
               if: ${{ !cancelled() && steps.build_step.outcome == 'success' && runner.os == 'Linux' }}
-              env:
-                  NODE_OPTIONS: "--no-experimental-strip-types"
               run: xvfb-run -a npm run test:coverage
 
             - name: Extension Integration Tests - Non-Linux
               id: integration_tests_non_linux
               if: ${{ !cancelled() && steps.build_step.outcome == 'success' && runner.os != 'Linux' }}
-              env:
-                  NODE_OPTIONS: "--no-experimental-strip-types"
               run: npm run test:integration
 
             - name: Webview Tests with Coverage
